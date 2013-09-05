@@ -14,7 +14,7 @@ module Configurator
           
           defaults = options[:defaults] || {}
           settings_path = options[:path] || Rails.root.join("config", "#{property}.yml")
-          settings = YAML.load_file(settings_path)[Rails.env.to_s]
+          settings = YAML.load(ERB.new(File.read(settings_path)).result)[Rails.env]
           settings.reverse_merge!(defaults)
           
           o = OpenStruct.new(settings)
